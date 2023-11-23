@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
+import { BsSearch } from "react-icons/bs";
 
 function App() {
   const [weather, setWeather] = useState(null);
-  const [location, setLocation] = useState("");
+  const [data, setData] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -12,38 +13,64 @@ function App() {
         const response = await axios.get(
           `http://api.weatherapi.com/v1/forecast.json?key=${
             import.meta.env.VITE_WEATHER_API
-          }&q=${location}&days=5&aqi=yes&alerts=yes`
+          }&q=${data}&units=metric&lang=tr&days=5&aqi=yes&alerts=yes`
         );
         setWeather(response.data);
-        console.log(response.data);
+        console.log("data", response.data);
       } catch (error) {
         console.log(error);
       }
     };
-    if (location) {
+    if (data) {
       fetchData();
     }
-  }, [location]);
+  }, [data]);
 
   const handleLocationChange = (event) => {
-    setLocation(event.target.value);
+    setData(event.target.value);
   };
+
+  const search = () => {
+    if (data) {
+      setData("");
+    } else {
+      alert("Lütfen bir şehir giriniz");
+    }
+  };
+
+ 
 
   return (
     <>
       <div className="app-container">
-        <h1 className="app-title">Hava Durumu Uygulaması</h1>
+        <h1 className="app-title">Hava Durumu</h1>
+
 
         <div className="input-container">
           <input
             className="location-input"
             type="text"
             placeholder="Şehir Giriniz"
-            value={location}
+            value={data}
             onChange={handleLocationChange}
           />
+          <button
+            className="search-button"
+            type="button"
+            value="Ara"
+            onClick={ ( ) =>  search()  }  
+          >
+            <BsSearch size={18} />
+          </button>
         </div>
       </div>
+      {weather && (
+        <div>
+          <h2 className="location">
+            {weather.location.name} / {weather.location.country}
+          </h2>
+        </div>
+      )}
 
       {weather && (
         <div className="weather-container">
