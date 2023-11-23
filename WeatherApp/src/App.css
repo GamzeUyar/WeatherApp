@@ -1,57 +1,58 @@
 body {
   margin: 0;
   padding: 0;
-  color: white;
-  background-color: #302f2f;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url("assets/img/pexels-pixabay-531756.jpg") ;
-  background-repeat : no-repeat;
+  height: 100%;
+  background-image: url("assets/img/pexels-johann-piber-695657.jpg");
+  background-repeat: no-repeat;
   background-size: cover;
-  
-
-  
-
+  background-position: center;
+  background-attachment: fixed;
+  flex-wrap:nowrap;
 }
 
-
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ 
+}
 .app-container {
  
+  color: rgb(255, 255, 255);
   max-width: 600px;
   margin: 0 auto;
   padding: 30px;
-  
 }
 
 .app-title {
   font-size: 40px;
   margin-bottom: 27px;
   text-align: center;
- 
 }
 
 .input-container {
-
   margin-bottom: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
- 
 }
 
 .search-button {
   position: absolute;
-  right: 0.1px;
-height: 46px;
+  right: 0.01px;
+  height: 46px;
   cursor: pointer;
-  border-radius: 1px 8px 8px 1px;
-  -webkit-border-radius: 1px 8px 8px 1px;
-  -moz-border-radius: 1px 8px 8px 1px;
-  -ms-border-radius: 1px 8px 8px 1px;
-  -o-border-radius: 1px 8px 8px 1px;
+  border-radius: 1px 9px 9px 1px;
+  -webkit-border-radius: 1px 9px 9px 1px;
+  -moz-border-radius: 1px 9px 9px 1px;
+  -ms-border-radius: 1px 9px 9px 1px;
+  -o-border-radius: 1px 9px 9px 1px;
 }
 .search-button:hover {
   background-color: #d1cccc;
@@ -70,18 +71,26 @@ height: 46px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
-
-.location {
+.daily{
+  color: rgb(255, 255, 255);
   text-align: center;
-  font-size: 23pt !important;
+}
+.location {
+  color: rgb(255, 255, 255);
+  text-align: center;
+  font-size: 23pt;
+  font-weight: bold;
 }
 
 .weather-container {
   display: flex;
   justify-content: center;
+  flex-wrap:wrap;
+  
 }
 
 .day-container {
+  color: rgb(255, 255, 255);
   margin: 10px;
   padding: 10px;
   width: 200px;
@@ -90,6 +99,11 @@ height: 46px;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
-  box-shadow: 0 4px 4px;
+  box-shadow: 2px 4px 6px rgb(3, 3, 3);
   text-align: center;
+  
+}
+
+.date{
+  font-size: 18px;
 }

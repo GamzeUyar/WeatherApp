@@ -21,6 +21,7 @@ function App() {
         console.log(error);
       }
     };
+
     if (data) {
       fetchData();
     }
@@ -38,13 +39,10 @@ function App() {
     }
   };
 
- 
-
   return (
-    <>
+    <div className="container">
       <div className="app-container">
         <h1 className="app-title">Hava Durumu</h1>
-
 
         <div className="input-container">
           <input
@@ -58,7 +56,7 @@ function App() {
             className="search-button"
             type="button"
             value="Ara"
-            onClick={ ( ) =>  search()  }  
+            onClick={() => search()}
           >
             <BsSearch size={18} />
           </button>
@@ -66,6 +64,7 @@ function App() {
       </div>
       {weather && (
         <div>
+          <h2 className="daily">5 Günlük Tahmin</h2>
           <h2 className="location">
             {weather.location.name} / {weather.location.country}
           </h2>
@@ -88,7 +87,7 @@ function App() {
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }
 
