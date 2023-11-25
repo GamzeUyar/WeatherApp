@@ -6,36 +6,56 @@ import { BsSearch } from "react-icons/bs";
 function App() {
   const [weather, setWeather] = useState(null);
   const [data, setData] = useState("");
+  const [search, setSearch] = useState(false);
+  const [cityChanged, setCityChanged] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://api.weatherapi.com/v1/forecast.json?key=${
-            import.meta.env.VITE_WEATHER_API
-          }&q=${data}&units=metric&lang=tr&days=5&aqi=yes&alerts=yes`
-        );
-        setWeather(response.data);
-        console.log("data", response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  console.log("gelen data", data);
+  console.log("hava durumu", weather);
+  console.log ("şehir değişti", cityChanged)
+  console.log ("arama yapıldı", search)
 
-    if (data) {
-      fetchData();
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `http://api.weatherapi.com/v1/forecast.json?key=${
+          import.meta.env.VITE_WEATHER_API
+        }&q=${data}&units=metric&lang=tr&days=5&aqi=yes&alerts=yes`
+      );
+      setWeather(response.data);
+      console.log("data", response.data);
+      setSearch(true); // Yeni şehir girişinde arama yapıldığını işaretle
+      setCityChanged(false); // Şehir değişikliğini sıfırla
+    } catch (error) {
+      console.log(error);
     }
-  }, [data]);
-
-  const handleLocationChange = (event) => {
-    setData(event.target.value);
   };
 
-  const search = () => {
+  useEffect(() => {
+    if (search && data && cityChanged) {
+      fetchData();
+      setCityChanged(false);
+    }
+  }, [search, data, cityChanged]);
+
+  const handleLocationChange = (event) => {
+    const newLocation = event.target.value;
+
+    // Şehir input alanına yazıldığında ve değer değiştiyse hava durumu bilgisini getir
+    if (newLocation !== data) {
+      setData(newLocation);
+      search ()
+      
+    }
+  };
+
+  const handleSearch = () => {
     if (data) {
-      setData("");
+      setSearch(true);
+      setCityChanged(true); // Butona tıklanınca da durumu işaretle
+      fetchData();
     } else {
-      alert("Lütfen bir şehir giriniz");
+      setSearch(false);
+      alert("Lütfen bir şehir giriniz");
     }
   };
 
@@ -48,21 +68,16 @@ function App() {
           <input
             className="location-input"
             type="text"
-            placeholder="Şehir Giriniz"
+            placeholder="Şehir Giriniz"
             value={data}
             onChange={handleLocationChange}
           />
-          <button
-            className="search-button"
-            type="button"
-            value="Ara"
-            onClick={() => search()}
-          >
+          <button className="search-button" type="button" onClick={handleSearch}>
             <BsSearch size={18} />
           </button>
         </div>
       </div>
-      {weather && (
+      {search && weather && (
         <div>
           <h2 className="daily">5 Günlük Tahmin</h2>
           <h2 className="location">
@@ -71,10 +86,10 @@ function App() {
         </div>
       )}
 
-      {weather && (
+      {search && weather && (
         <div className="weather-container">
           {weather.forecast.forecastday.map((day) => (
-            <div className="day-container" key={day.date}>
+            <div className="day-container" key={day.hour}>
               <h2 className="date"> {day.date} </h2>
               <img
                 className="weather-icon"
